@@ -58,7 +58,7 @@
 }
 -(void)initAccessViewFrame{
     CGRect rect = _accessView.bounds;
-    rect.origin.y = (self.frame.size.height - rect.size.height) * 0.2;
+    rect.origin.y = (self.frame.size.height - rect.size.height) * 0.5;
     rect.origin.x = self.frame.size.width - rect.size.width - rect.origin.y;
 
     _accessView.frame = rect;
