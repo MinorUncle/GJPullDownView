@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-
+#import "GJPullDownView.h"
 @interface ViewController ()
 
 @end
@@ -16,6 +16,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    GJPullDownView* view = [[GJPullDownView alloc]initWithItems:@[@"1",@"2",@"3"]];
+    UIImage* image =[UIImage imageNamed:@"1"];
+    view.accessView = [[UIImageView alloc]initWithImage:image];
+    view.backgroundColor = [UIColor redColor];
+    view.frame = CGRectMake(20, 20, 200, 30);
+    [self.view addSubview:view];
     // Do any additional setup after loading the view, typically from a nib.
 }
 

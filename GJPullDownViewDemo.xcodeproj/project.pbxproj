@@ -13,6 +13,8 @@
 		C567B5B91C40F0FA00929774 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C567B5B71C40F0FA00929774 /* Main.storyboard */; };
 		C567B5BB1C40F0FA00929774 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C567B5BA1C40F0FA00929774 /* Assets.xcassets */; };
 		C567B5BE1C40F0FA00929774 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C567B5BC1C40F0FA00929774 /* LaunchScreen.storyboard */; };
+		C567B5C81C40F12000929774 /* GJPullDownView.m in Sources */ = {isa = PBXBuildFile; fileRef = C567B5C71C40F12000929774 /* GJPullDownView.m */; };
+		C567B5CA1C41016700929774 /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = C567B5C91C41016700929774 /* 1.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,9 @@
 		C567B5BA1C40F0FA00929774 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C567B5BD1C40F0FA00929774 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C567B5BF1C40F0FA00929774 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C567B5C61C40F12000929774 /* GJPullDownView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GJPullDownView.h; sourceTree = "<group>"; };
+		C567B5C71C40F12000929774 /* GJPullDownView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GJPullDownView.m; sourceTree = "<group>"; };
+		C567B5C91C41016700929774 /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +63,7 @@
 		C567B5AD1C40F0FA00929774 /* GJPullDownViewDemo */ = {
 			isa = PBXGroup;
 			children = (
+				C567B5C51C40F10300929774 /* GJPullDownView */,
 				C567B5B11C40F0FA00929774 /* AppDelegate.h */,
 				C567B5B21C40F0FA00929774 /* AppDelegate.m */,
 				C567B5B41C40F0FA00929774 /* ViewController.h */,
@@ -77,6 +83,16 @@
 				C567B5AF1C40F0FA00929774 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C567B5C51C40F10300929774 /* GJPullDownView */ = {
+			isa = PBXGroup;
+			children = (
+				C567B5C61C40F12000929774 /* GJPullDownView.h */,
+				C567B5C71C40F12000929774 /* GJPullDownView.m */,
+				C567B5C91C41016700929774 /* 1.png */,
+			);
+			name = GJPullDownView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -136,6 +152,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C567B5CA1C41016700929774 /* 1.png in Resources */,
 				C567B5BE1C40F0FA00929774 /* LaunchScreen.storyboard in Resources */,
 				C567B5BB1C40F0FA00929774 /* Assets.xcassets in Resources */,
 				C567B5B91C40F0FA00929774 /* Main.storyboard in Resources */,
@@ -149,6 +166,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C567B5C81C40F12000929774 /* GJPullDownView.m in Sources */,
 				C567B5B61C40F0FA00929774 /* ViewController.m in Sources */,
 				C567B5B31C40F0FA00929774 /* AppDelegate.m in Sources */,
 				C567B5B01C40F0FA00929774 /* main.m in Sources */,
