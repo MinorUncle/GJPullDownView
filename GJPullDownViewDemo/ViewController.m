@@ -19,6 +19,13 @@
     GJPullDownView* view = [[GJPullDownView alloc]initWithItems:@[@"1",@"2",@"3"]];
     UIImage* image =[UIImage imageNamed:@"1"];
     view.accessView = [[UIImageView alloc]initWithImage:image];
+    view.changeBlock = ^(GJPullDownView* pullView, BOOL isOpen){
+        if (isOpen) {
+            pullView.accessView.transform = CGAffineTransformMakeRotation(M_PI);
+        }else{
+            pullView.accessView.transform = CGAffineTransformMakeRotation(0);
+        }
+    };
     view.backgroundColor = [UIColor redColor];
     view.frame = CGRectMake(20, 20, 200, 30);
     [self.view addSubview:view];
