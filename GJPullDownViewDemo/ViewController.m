@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 #import "GJPullDownView.h"
-@interface ViewController ()
+@interface ViewController ()<GJPullDownViewDelegate>
 
 @end
 
@@ -19,17 +19,14 @@
     GJPullDownView* view = [[GJPullDownView alloc]initWithItems:@[@"1",@"2",@"3"]];
     UIImage* image =[UIImage imageNamed:@"1"];
     view.accessView = [[UIImageView alloc]initWithImage:image];
-    view.changeBlock = ^(GJPullDownView* pullView, BOOL isOpen){
-        if (isOpen) {
-            pullView.accessView.transform = CGAffineTransformMakeRotation(M_PI);
-        }else{
-            pullView.accessView.transform = CGAffineTransformMakeRotation(0);
-        }
-    };
+    view.PullDownViewDelegate = self;
     view.backgroundColor = [UIColor redColor];
     view.frame = CGRectMake(20, 20, 200, 30);
     [self.view addSubview:view];
     // Do any additional setup after loading the view, typically from a nib.
+}
+-(void)GJPullDownView:(GJPullDownView *)pulldownView didChangeStatus:(BOOL)isToOpen{
+    
 }
 
 - (void)didReceiveMemoryWarning {

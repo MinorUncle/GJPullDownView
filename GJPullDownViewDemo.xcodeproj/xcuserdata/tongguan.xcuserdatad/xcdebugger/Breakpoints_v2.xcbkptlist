@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GJPullDownViewDemo/GJPullDownView.m"
-            timestampString = "483716515.395259"
+            timestampString = "485242858.621666"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
+            startingLineNumber = "160"
+            endingLineNumber = "160"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -42,12 +42,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GJPullDownViewDemo/GJPullDownView.m"
-            timestampString = "483716508.282767"
+            timestampString = "485242858.621666"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
-            landmarkName = "-setItemsName:"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "-setItemNames:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GJPullDownViewDemo/GJPullDownView.m"
-            timestampString = "483716552.82066"
+            timestampString = "485242858.621666"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
             landmarkName = "-initWithItems:"
             landmarkType = "5">
          </BreakpointContent>

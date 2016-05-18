@@ -9,7 +9,10 @@
 #import <UIKit/UIKit.h>
 @class GJPullDownView;
 @protocol GJPullDownViewDelegate <NSObject>
+@optional
 -(NSInteger)GJPullDownView:(GJPullDownView*)pulldownView selectIndex:(NSInteger)index;
+-(BOOL)GJPullDownView:(GJPullDownView*)pulldownView shouldWillChangeStatus:(BOOL)isToOpen;
+-(void)GJPullDownView:(GJPullDownView*)pulldownView didChangeStatus:(BOOL)isToOpen;
 
 @end
 
@@ -33,9 +36,7 @@
 @property(nonatomic,retain)UIFont* listTextColor;
 
 
-//打开和关闭时调用
-@property(nonatomic,copy)void(^changeBlock)(GJPullDownView* pullDownView ,BOOL isToOpen);
-//@property(nonatomic,assign)
+@property(nonatomic,assign,setter=open:)BOOL isOpen;
 
 
 

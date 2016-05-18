@@ -16,6 +16,7 @@
 }
 @end
 @implementation GJPullDownView
+@synthesize isOpen = _isOpen;
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -91,10 +92,22 @@
     }
 
 }
--(void)selectBtn:(UIButton*)btn{
+-(void)open:(BOOL)isOpen{
+    _isOpen = isOpen;
+    if (_sectionBtn.selected != isOpen) {
+        [self selectBtn:_sectionBtn];
+    }
+}
+-(BOOL)isOpen{
+    return _sectionBtn.selected;
+}
+-(BOOL)selectBtn:(UIButton*)btn{
     btn.selected = !btn.selected;
-    if(self.changeBlock != nil){
-        self.changeBlock(self, btn.selected);
+    if([self.PullDownViewDelegate respondsToSelector:@selector(GJPullDownView:shouldWillChangeStatus:)]){
+        if(![self.PullDownViewDelegate GJPullDownView:self shouldWillChangeStatus:btn.selected]){
+            btn.selected = !btn.selected;
+            return NO;
+        };
     }
     if (btn.isSelected) {
         [self.superview addSubview:_listView];
@@ -107,6 +120,10 @@
             }
             rect.origin.y = CGRectGetMaxY(self.frame);
             _listView.frame = rect;
+        }completion:^(BOOL finished) {
+            if([self.PullDownViewDelegate respondsToSelector:@selector(GJPullDownView:didChangeStatus:)]){
+                [self.PullDownViewDelegate GJPullDownView:self didChangeStatus:btn.selected];
+            }
         }];
     }else{
         [UIView animateWithDuration:0.2 animations:^{
@@ -114,9 +131,13 @@
             rect.size.height = 0.0;
             _listView.frame = rect;
         }completion:^(BOOL finished) {
+            if([self.PullDownViewDelegate respondsToSelector:@selector(GJPullDownView:didChangeStatus:)]){
+                [self.PullDownViewDelegate GJPullDownView:self didChangeStatus:btn.selected];
+            }
             [_listView removeFromSuperview];
         }];
     }
+    return YES;
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -136,10 +157,11 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [self.PullDownViewDelegate GJPullDownView:self selectIndex:indexPath.row];
     _sectionLable.text =_itemNames[indexPath.row];
     _currentIndex = indexPath.row;
-    [self selectBtn:_sectionBtn];
+    if([self selectBtn:_sectionBtn]){
+        [self.PullDownViewDelegate GJPullDownView:self selectIndex:indexPath.row];
+    }
 }
 
 
