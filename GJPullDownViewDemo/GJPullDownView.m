@@ -16,14 +16,13 @@
 }
 @end
 @implementation GJPullDownView
-@synthesize isOpen = _isOpen;
+@synthesize isOpen = _isOpen,itemTags = _itemTags;
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
         _sectionBtn =  [[ UIButton alloc]initWithFrame:self.bounds];
         [_sectionBtn addTarget:self action:@selector(selectBtn:) forControlEvents:UIControlEventTouchUpInside];
-        _currentIndex = 0;
         _sectionLable = [[UILabel alloc]init];
         _sectionLable.textAlignment = NSTextAlignmentCenter;
 
@@ -55,8 +54,30 @@
 -(void)setItemNames:(NSArray<NSString *> *)itemsName{
     _itemNames = itemsName;
     _sectionLable.text = _itemNames[0];
+    _currentTag = 0;
     [_listView reloadData];
 }
+
+-(NSArray<NSNumber *> *)itemTags{
+    
+    if (_itemTags == nil || _itemTags.count != _itemNames.count) {
+        NSMutableArray* arry = [[NSMutableArray alloc]initWithCapacity:_itemNames.count];
+        for (int i = 0; i< _itemNames.count; i++) {
+            [arry addObject:@(i)];
+        }
+        _itemTags = arry;
+    }
+    return _itemTags;
+}
+
+-(void)setItemTags:(NSArray<NSNumber *> *)itemTags{
+    _itemTags = itemTags;
+    if (itemTags.count > 0) {
+        _currentTag = [itemTags[0]intValue];
+    }
+}
+
+
 -(void)setFrame:(CGRect)frame{
     [super setFrame:frame];
     _sectionBtn.frame = self.bounds;
@@ -158,9 +179,11 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     _sectionLable.text =_itemNames[indexPath.row];
-    _currentIndex = indexPath.row;
+    _currentTag = [self.itemTags[indexPath.row] integerValue];
     if([self selectBtn:_sectionBtn]){
-        [self.PullDownViewDelegate GJPullDownView:self selectIndex:indexPath.row];
+        if ([self.PullDownViewDelegate respondsToSelector:@selector(GJPullDownView:selectIndex:)]) {
+            [self.PullDownViewDelegate GJPullDownView:self selectIndex:indexPath.row];
+        }
     }
 }
 

@@ -18,6 +18,7 @@
 
 @interface GJPullDownView : UIView
 @property(nonatomic,retain)NSArray<NSString*>* itemNames;
+@property(nonatomic,strong,setter=setItemTags:)NSArray<NSNumber*>* itemTags;
 
 @property(nonatomic,weak)id<GJPullDownViewDelegate>PullDownViewDelegate;
 
@@ -29,7 +30,7 @@
 @property(nonatomic,retain,readonly)UILabel* sectionLable;
 @property(nonatomic,assign)NSInteger showMaxCellCount;
 
-@property(nonatomic,assign)NSInteger currentIndex;
+@property(nonatomic,assign)NSInteger currentTag;
 
 @property(nonatomic,retain)UIFont* listTextFont;
 
