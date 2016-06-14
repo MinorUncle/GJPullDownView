@@ -17,11 +17,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     GJPullDownView* view = [[GJPullDownView alloc]initWithItems:@[@"1",@"2",@"3"]];
-    UIImage* image =[UIImage imageNamed:@"1"];
-    view.accessView = [[UIImageView alloc]initWithImage:image];
     view.PullDownViewDelegate = self;
+    view.listView.backgroundColor = [UIColor yellowColor];
+    view.listViewShowType = ListViewShowInSuperView;
     view.backgroundColor = [UIColor redColor];
-    view.frame = CGRectMake(20, 20, 200, 30);
+    view.frame = CGRectMake(140, 150, 200, 30);
     [self.view addSubview:view];
     // Do any additional setup after loading the view, typically from a nib.
 }

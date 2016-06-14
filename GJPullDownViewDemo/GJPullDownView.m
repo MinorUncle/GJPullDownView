@@ -13,10 +13,15 @@
 {
     CGFloat _cellHeight;
     UIButton* _sectionBtn;
+    UIView* _temSuperView;
 }
+@property(strong,nonatomic)UIButton* backGroundView;
+@property(strong,nonatomic)UIImageView* arrow;
+
 @end
 @implementation GJPullDownView
 @synthesize isOpen = _isOpen,itemTags = _itemTags;
+
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -38,9 +43,35 @@
         [self addSubview:_sectionBtn];
         [self.superview addSubview:_listView];
         
+        self.accessViewType = AccessViewTypeArrow;
         _listTextFont = [UIFont systemFontOfSize:FONT_SIZE];
     }
     return self;
+}
+-(UIImageView *)arrow{
+    if(_arrow == nil){
+        _arrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrow"]];
+    }
+    return _arrow;
+}
+-(void)setAccessViewType:(AccessViewType)accessViewType{
+    if (accessViewType == _accessViewType) {
+        return;
+    }
+    _accessViewType = accessViewType;
+    switch (accessViewType) {
+        case AccessViewTypeCustom:
+            [self.arrow removeFromSuperview];
+            break;
+        case AccessViewTypeArrow:
+            self.accessView = self.arrow;
+            break;
+            
+            
+        default:
+            break;
+    }
+
 }
 - (instancetype)initWithItems:(NSArray*)items
 {
@@ -90,7 +121,23 @@
     
     [self updateAccessViewFrame];
 }
+-(UIView *)backGroundView{
+    if (_backGroundView == nil) {
+        _backGroundView = [[UIButton alloc]initWithFrame:[UIScreen mainScreen].bounds];
+        [_backGroundView addTarget:self action:@selector(backGroundClick:) forControlEvents:UIControlEventTouchUpInside];
+        _backGroundView.backgroundColor = [UIColor blackColor];
+        _backGroundView.alpha = 0.5;
+    }
+    return _backGroundView;
+}
+-(void)backGroundClick:(UIButton*)btn{
+    [self selectBtn:_sectionBtn];
+}
+
 -(void)setAccessView:(UIView *)accessView{
+    if (accessView == _accessView) {
+        return;
+    }
     _accessView = accessView;
     [_accessView setContentMode:UIViewContentModeScaleAspectFit];
     [_sectionBtn addSubview:accessView];
@@ -101,8 +148,9 @@
         _sectionLable.frame = _sectionBtn.bounds;
 
     }else{
-        CGRect rect = _accessView.bounds;
-        //    rect.size = CGSizeMake(rect.size.height*0.6, rect.size.height*0.6);
+        CGRect rect ;
+        rect.size.width = self.frame.size.height *0.6;
+        rect.size.height = rect.size.width;
         rect.origin.y = (self.frame.size.height - rect.size.height) * 0.5;
         rect.origin.x = self.frame.size.width - rect.size.width - rect.origin.y;
         _accessView.frame = rect;
@@ -113,52 +161,175 @@
     }
 
 }
+
 -(void)open:(BOOL)isOpen{
     _isOpen = isOpen;
     if (_sectionBtn.selected != isOpen) {
         [self selectBtn:_sectionBtn];
     }
 }
+
 -(BOOL)isOpen{
     return _sectionBtn.selected;
 }
+
 -(BOOL)selectBtn:(UIButton*)btn{
     btn.selected = !btn.selected;
-    if([self.PullDownViewDelegate respondsToSelector:@selector(GJPullDownView:shouldWillChangeStatus:)]){
-        if(![self.PullDownViewDelegate GJPullDownView:self shouldWillChangeStatus:btn.selected]){
+    if([self.PullDownViewDelegate respondsToSelector:@selector(GJPullDownView:shouldWillChangeToOpen:)]){
+        if(![self.PullDownViewDelegate GJPullDownView:self shouldWillChangeToOpen:btn.selected]){
             btn.selected = !btn.selected;
             return NO;
         };
     }
     if (btn.isSelected) {
-        [self.superview addSubview:_listView];
-        [UIView animateWithDuration:0.2 animations:^{
-            CGRect rect = self.frame;
-            if (_showMaxCellCount >0) {
-                rect.size.height = (_itemNames.count < _showMaxCellCount? _itemNames.count:_showMaxCellCount) * _cellHeight;
-            }else{
-                rect.size.height = _itemNames.count * _cellHeight;
-            }
-            rect.origin.y = CGRectGetMaxY(self.frame);
-            _listView.frame = rect;
-        }completion:^(BOOL finished) {
-            if([self.PullDownViewDelegate respondsToSelector:@selector(GJPullDownView:didChangeStatus:)]){
-                [self.PullDownViewDelegate GJPullDownView:self didChangeStatus:btn.selected];
-            }
-        }];
+        [self open];
     }else{
-        [UIView animateWithDuration:0.2 animations:^{
-            CGRect rect = _listView.frame;
-            rect.size.height = 0.0;
-            _listView.frame = rect;
-        }completion:^(BOOL finished) {
-            if([self.PullDownViewDelegate respondsToSelector:@selector(GJPullDownView:didChangeStatus:)]){
-                [self.PullDownViewDelegate GJPullDownView:self didChangeStatus:btn.selected];
-            }
-            [_listView removeFromSuperview];
-        }];
+        [self close];
+       
     }
     return YES;
+}
+-(void)open{
+    __block CGRect rect = self.frame;
+    switch (_listViewShowType) {
+        case ListViewShowModel:
+        {
+            rect = [self getInTopSuperViewFrameWithView:self];
+            CGRect r = rect;
+            r.origin.y += r.size.height;
+            r.size.height = 0;
+            _listView.frame = r;
+            [[[UIApplication sharedApplication] keyWindow] addSubview:self.backGroundView];
+            [self.backGroundView addSubview:_listView];
+        }
+            break;
+        case ListViewShowInSelf:
+        {
+            CGRect r = self.bounds;
+            r.origin.y = r.size.height;
+            r.size.height = 0;
+            _listView.frame = r;
+            [self addSubview:_listView];
+        }
+            break;
+        case ListViewShowInSuperView:
+        {
+            CGRect r = self.frame;
+            r.origin.y += r.size.height;
+            r.size.height = 0;
+            _listView.frame = r;
+            [self.superview addSubview:_listView];
+            
+        }
+            break;
+            
+        default:
+            break;
+    }
+    
+    [UIView animateWithDuration:0.2 animations:^{
+        if (_showMaxCellCount >0) {
+            rect.size.height = (_itemNames.count < _showMaxCellCount? _itemNames.count:_showMaxCellCount) * _cellHeight;
+        }else{
+            rect.size.height = _itemNames.count * _cellHeight;
+        }
+        switch (_listViewShowType) {
+            case ListViewShowModel:
+            {
+                rect.origin.y += self.bounds.size.height;
+                _listView.frame = rect;
+            }
+                break;
+            case ListViewShowInSelf:
+            {
+                rect.origin.x = 0;
+                rect.origin.y = self.frame.size.height;
+                _listView.frame = rect;
+ 
+                CGRect r = self.frame;
+                r.size.height += rect.size.height;
+                super.frame = r;
+            }
+                
+                break;
+            case ListViewShowInSuperView:
+            {
+                rect.origin.y = CGRectGetMaxY(self.frame);
+                _listView.frame = rect;
+            }
+                break;
+                
+            default:
+                break;
+        }
+        
+        if (self.accessViewType == AccessViewTypeArrow) {
+            self.accessView = self.arrow;
+            self.accessView.transform = CGAffineTransformMakeRotation(M_PI);
+        }
+        
+    }completion:^(BOOL finished) {
+        if([self.PullDownViewDelegate respondsToSelector:@selector(GJPullDownView:didChangeToOpen:)]){
+            [self.PullDownViewDelegate GJPullDownView:self didChangeToOpen:YES];
+        }
+        
+    }];
+}
+-(void)close{
+    [UIView animateWithDuration:0.2 animations:^{
+        __block CGRect rect = _listView.frame;
+        switch (_listViewShowType) {
+            case ListViewShowModel:
+            {
+                rect.size.height = 0;
+                _listView.frame = rect;
+            }
+                break;
+            case ListViewShowInSelf:
+            {
+                rect.size.height = 0;
+                _listView.frame = rect;
+                
+                rect = self.frame;
+                rect.size.height = _sectionBtn.bounds.size.height;
+                super.frame = rect;
+            }
+                break;
+            case ListViewShowInSuperView:
+            {
+                rect.size.height = 0;
+                _listView.frame = rect;
+            }
+                break;
+                
+            default:
+                break;
+        }
+        
+        if (self.accessViewType == AccessViewTypeArrow) {
+            self.accessView = self.arrow;
+            self.accessView.transform = CGAffineTransformIdentity;
+        }
+    }completion:^(BOOL finished) {
+        if([self.PullDownViewDelegate respondsToSelector:@selector(GJPullDownView:didChangeToOpen:)]){
+            [self.PullDownViewDelegate GJPullDownView:self didChangeToOpen:NO];
+        }
+        [_listView removeFromSuperview];
+        if (_listViewShowType == ListViewShowModel) {
+            [self.backGroundView removeFromSuperview];
+        }
+    }];
+}
+
+-(CGRect)getInTopSuperViewFrameWithView:(UIView*)view{
+    CGRect rect = view.frame;
+    id superView = view.superview;
+    while ([superView isKindOfClass:[UIView class]]) {
+        rect.origin.x += ((UIView*)superView).frame.origin.x;
+        rect.origin.y += ((UIView*)superView).frame.origin.y;
+        superView = ((UIView*)superView).superview;
+    }
+    return rect;
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -169,10 +340,12 @@
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"GJPullDownViewCell"];
         [cell.textLabel setFont:_listTextFont];
         cell.textLabel.textAlignment = self.listAlignment;
+        cell.backgroundColor = [UIColor clearColor];
     }
     cell.textLabel.text = _itemNames[indexPath.row];
     return cell;
 }
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return _itemNames.count;
 }
