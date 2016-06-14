@@ -15,7 +15,9 @@
     UIButton* _sectionBtn;
     UIView* _temSuperView;
 }
+@property(strong,nonatomic)UIView* alphaBackGroundView;
 @property(strong,nonatomic)UIButton* backGroundView;
+
 @property(strong,nonatomic)UIImageView* arrow;
 
 @end
@@ -121,12 +123,19 @@
     
     [self updateAccessViewFrame];
 }
--(UIView *)backGroundView{
+-(UIView *)alphaBackGroundView{
+    if(_alphaBackGroundView == nil){
+        _alphaBackGroundView = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+        _alphaBackGroundView.backgroundColor = [UIColor blackColor];
+        _alphaBackGroundView.alpha = 0.5;
+
+    }
+    return _alphaBackGroundView;
+}
+-(UIButton *)backGroundView{
     if (_backGroundView == nil) {
         _backGroundView = [[UIButton alloc]initWithFrame:[UIScreen mainScreen].bounds];
         [_backGroundView addTarget:self action:@selector(backGroundClick:) forControlEvents:UIControlEventTouchUpInside];
-        _backGroundView.backgroundColor = [UIColor blackColor];
-        _backGroundView.alpha = 0.5;
     }
     return _backGroundView;
 }
@@ -199,6 +208,7 @@
             r.origin.y += r.size.height;
             r.size.height = 0;
             _listView.frame = r;
+            [[[UIApplication sharedApplication] keyWindow] addSubview:self.alphaBackGroundView];
             [[[UIApplication sharedApplication] keyWindow] addSubview:self.backGroundView];
             [self.backGroundView addSubview:_listView];
         }
@@ -317,6 +327,7 @@
         [_listView removeFromSuperview];
         if (_listViewShowType == ListViewShowModel) {
             [self.backGroundView removeFromSuperview];
+            [self.alphaBackGroundView removeFromSuperview];
         }
     }];
 }
