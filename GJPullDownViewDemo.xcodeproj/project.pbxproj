@@ -14,7 +14,6 @@
 		C567B5BB1C40F0FA00929774 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C567B5BA1C40F0FA00929774 /* Assets.xcassets */; };
 		C567B5BE1C40F0FA00929774 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C567B5BC1C40F0FA00929774 /* LaunchScreen.storyboard */; };
 		C567B5C81C40F12000929774 /* GJPullDownView.m in Sources */ = {isa = PBXBuildFile; fileRef = C567B5C71C40F12000929774 /* GJPullDownView.m */; };
-		C567B5CA1C41016700929774 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = C567B5C91C41016700929774 /* arrow.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,7 +29,6 @@
 		C567B5BF1C40F0FA00929774 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C567B5C61C40F12000929774 /* GJPullDownView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GJPullDownView.h; sourceTree = "<group>"; };
 		C567B5C71C40F12000929774 /* GJPullDownView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GJPullDownView.m; sourceTree = "<group>"; };
-		C567B5C91C41016700929774 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,7 +88,6 @@
 			children = (
 				C567B5C61C40F12000929774 /* GJPullDownView.h */,
 				C567B5C71C40F12000929774 /* GJPullDownView.m */,
-				C567B5C91C41016700929774 /* arrow.png */,
 			);
 			name = GJPullDownView;
 			sourceTree = "<group>";
@@ -126,6 +123,7 @@
 				TargetAttributes = {
 					C567B5AA1C40F0FA00929774 = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = X33DX68294;
 					};
 				};
 			};
@@ -152,7 +150,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C567B5CA1C41016700929774 /* arrow.png in Resources */,
 				C567B5BE1C40F0FA00929774 /* LaunchScreen.storyboard in Resources */,
 				C567B5BB1C40F0FA00929774 /* Assets.xcassets in Resources */,
 				C567B5B91C40F0FA00929774 /* Main.storyboard in Resources */,
@@ -279,6 +276,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = X33DX68294;
 				INFOPLIST_FILE = GJPullDownViewDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -291,6 +289,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = X33DX68294;
 				INFOPLIST_FILE = GJPullDownViewDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

@@ -15,7 +15,6 @@
     UIButton* _sectionBtn;
     UIView* _temSuperView;
 }
-@property(strong,nonatomic)UIView* alphaBackGroundView;
 @property(strong,nonatomic)UIButton* backGroundView;
 
 @property(strong,nonatomic)UIImageView* arrow;
@@ -50,12 +49,46 @@
     }
     return self;
 }
+
+-(void)drawRect:(CGRect)rect{
+    if (self.accessViewType == AccessViewTypeArrow) {
+        self.arrow.image = [self drawImageWithType:AccessViewTypeArrow];
+    }
+}
 -(UIImageView *)arrow{
     if(_arrow == nil){
-        _arrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrow"]];
+        _arrow = [[UIImageView alloc]init];
+        [self setNeedsDisplay];
     }
     return _arrow;
 }
+-(UIImage*)drawImageWithType:(AccessViewType)type{
+    UIImage* image;
+    switch (type) {
+        case AccessViewTypeArrow:
+        {
+            CGSize size = CGSizeMake(self.bounds.size.height*0.8,self.bounds.size.height*0.5);
+            UIGraphicsBeginImageContextWithOptions(size, NO, 0);
+            CGContextRef con = UIGraphicsGetCurrentContext();
+            if (con == nil) {
+                return nil;
+            }
+            CGContextSetLineWidth(con, 2);
+            CGContextSetStrokeColorWithColor(con, [UIColor grayColor].CGColor);
+            CGContextMoveToPoint(con, 0, 0);
+            CGContextAddLineToPoint(con, size.width*0.5, size.height);
+            CGContextAddLineToPoint(con, size.width, 0);
+            CGContextStrokePath(con);
+            image = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+        }
+            break;
+        default:
+            break;
+    }
+    return image;
+}
+
 -(void)setAccessViewType:(AccessViewType)accessViewType{
     if (accessViewType == _accessViewType) {
         return;
@@ -68,8 +101,6 @@
         case AccessViewTypeArrow:
             self.accessView = self.arrow;
             break;
-            
-            
         default:
             break;
     }
@@ -112,6 +143,9 @@
 
 
 -(void)setFrame:(CGRect)frame{
+    if (CGRectEqualToRect(frame, self.frame)) {
+        return;
+    }
     [super setFrame:frame];
     _sectionBtn.frame = self.bounds;
     _cellHeight = frame.size.height;
@@ -157,6 +191,7 @@
         _sectionLable.frame = _sectionBtn.bounds;
 
     }else{
+        
         CGRect rect ;
         rect.size.width = self.frame.size.height *0.6;
         rect.size.height = rect.size.width;
@@ -274,7 +309,6 @@
         }
         
         if (self.accessViewType == AccessViewTypeArrow) {
-            self.accessView = self.arrow;
             self.accessView.transform = CGAffineTransformMakeRotation(M_PI);
         }
         

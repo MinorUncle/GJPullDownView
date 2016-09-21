@@ -39,6 +39,9 @@ typedef enum _AccessViewType{
 @property(nonatomic,retain,readonly)UITableView* listView;
 //default ListViewShowInSuperView
 @property(nonatomic,assign)ListViewShowType listViewShowType;
+//only type is showModel
+@property(strong,nonatomic)UIView* alphaBackGroundView;
+
 @property(nonatomic,assign)NSTextAlignment listAlignment;
 
 @property(nonatomic,retain,readonly)UILabel* sectionLable;
@@ -50,8 +53,6 @@ typedef enum _AccessViewType{
 
 @property(nonatomic,retain)UIFont* listTextColor;
 @property(nonatomic,assign,setter=open:)BOOL isOpen;
-
-
 
 
 - (instancetype)initWithItems:(NSArray*)items;
