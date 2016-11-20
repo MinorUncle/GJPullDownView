@@ -27,11 +27,16 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        self.backgroundColor =[ UIColor whiteColor];
         _sectionBtn =  [[ UIButton alloc]initWithFrame:self.bounds];
+        self.layer.borderColor = [UIColor grayColor].CGColor;
+        self.layer.borderWidth = 1.0;
+        self.layer.cornerRadius = 5.0;
+        self.layer.masksToBounds = YES;
         [_sectionBtn addTarget:self action:@selector(selectBtn:) forControlEvents:UIControlEventTouchUpInside];
         _sectionLable = [[UILabel alloc]init];
         _sectionLable.textAlignment = NSTextAlignmentCenter;
-
+        
         [_sectionBtn addSubview:_sectionLable];
         CGRect rect = _sectionBtn.bounds;
         rect.origin.y = CGRectGetMaxY(frame);
@@ -46,6 +51,7 @@
         
         self.accessViewType = AccessViewTypeArrow;
         _listTextFont = [UIFont systemFontOfSize:FONT_SIZE];
+        
     }
     return self;
 }
@@ -104,7 +110,7 @@
         default:
             break;
     }
-
+    
 }
 - (instancetype)initWithItems:(NSArray*)items
 {
@@ -162,7 +168,7 @@
         _alphaBackGroundView = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
         _alphaBackGroundView.backgroundColor = [UIColor blackColor];
         _alphaBackGroundView.alpha = 0.5;
-
+        
     }
     return _alphaBackGroundView;
 }
@@ -176,7 +182,19 @@
 -(void)backGroundClick:(UIButton*)btn{
     [self selectBtn:_sectionBtn];
 }
-
+-(void)selectTag:(NSInteger)currentTag{
+    if (_currentTag != currentTag) {
+        _currentTag = currentTag;
+        for (int i = 0; i < self.itemTags.count; i++) {
+            if ([_itemTags[i] integerValue] == _currentTag) {
+                _sectionLable.text = _itemNames[i];
+                NSIndexPath* indexpath = [NSIndexPath indexPathForRow:i inSection:0];
+                [_listView selectRowAtIndexPath:indexpath animated:NO scrollPosition:UITableViewScrollPositionNone];
+            }
+        }
+        
+    }
+}
 -(void)setAccessView:(UIView *)accessView{
     if (accessView == _accessView) {
         return;
@@ -189,7 +207,7 @@
 -(void)updateAccessViewFrame{
     if (!self.accessView) {
         _sectionLable.frame = _sectionBtn.bounds;
-
+        
     }else{
         
         CGRect rect ;
@@ -203,7 +221,7 @@
         rect.size = CGSizeMake(_sectionBtn.bounds.size.width - rect.size.width, _sectionBtn.bounds.size.height);
         _sectionLable.frame = rect;
     }
-
+    
 }
 
 -(void)open:(BOOL)isOpen{
@@ -229,7 +247,7 @@
         [self open];
     }else{
         [self close];
-       
+        
     }
     return YES;
 }
@@ -290,7 +308,7 @@
                 rect.origin.x = 0;
                 rect.origin.y = self.frame.size.height;
                 _listView.frame = rect;
- 
+                
                 CGRect r = self.frame;
                 r.size.height += rect.size.height;
                 super.frame = r;

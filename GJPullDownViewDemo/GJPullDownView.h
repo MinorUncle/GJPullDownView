@@ -20,7 +20,7 @@ typedef enum _AccessViewType{
 @class GJPullDownView;
 @protocol GJPullDownViewDelegate <NSObject>
 @optional
--(NSInteger)GJPullDownView:(GJPullDownView*)pulldownView selectIndex:(NSInteger)index;
+-(void)GJPullDownView:(GJPullDownView*)pulldownView selectIndex:(NSInteger)index;
 -(BOOL)GJPullDownView:(GJPullDownView*)pulldownView shouldWillChangeToOpen:(BOOL)isToOpen;
 -(void)GJPullDownView:(GJPullDownView*)pulldownView didChangeToOpen:(BOOL)isToOpen;
 
@@ -47,7 +47,7 @@ typedef enum _AccessViewType{
 @property(nonatomic,retain,readonly)UILabel* sectionLable;
 @property(nonatomic,assign)NSInteger showMaxCellCount;
 
-@property(nonatomic,assign)NSInteger currentTag;
+@property(nonatomic,assign,setter=selectTag:)NSInteger currentTag;
 
 @property(nonatomic,retain)UIFont* listTextFont;
 
